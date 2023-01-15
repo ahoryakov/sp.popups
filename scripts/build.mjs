@@ -3,8 +3,9 @@ import {sassPlugin} from 'esbuild-sass-plugin'
 
 await esbuild.build({
   entryPoints: ['./src/index.js'],
-  bundle: true,
   outfile: './dist/popups.min.js',
-  plugins: [sassPlugin()],
+  bundle: true,
   minify: true,
+  format: 'esm',
+  plugins: [sassPlugin()],
 })
