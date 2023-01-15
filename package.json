@@ -1,0 +1,28 @@
+{
+  "name": "sp.popups",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahoryakov/sp.popups.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahoryakov/sp.popups/issues"
+  },
+  "homepage": "https://github.com/ahoryakov/sp.popups#readme",
+  "dependencies": {
+    "body-scroll-lock": "4.0.0-beta.0",
+    "gsap": "3.11.4"
+  },
+  "devDependencies": {
+    "esbuild": "0.17.0",
+    "esbuild-sass-plugin": "2.4.5"
+  }
+}
