@@ -8,7 +8,7 @@ class Popups {
 	constructor() {
 		this.init();
 	}
-	
+
 	init() {
 		this.wrapper = document.querySelector('[data-popups]');
 
@@ -27,6 +27,8 @@ class Popups {
 		this.activePopup = null;
 		this.activePopupName = '';
 		this.popups = document.querySelectorAll('[data-popup]');
+
+		this.animations = {};
 
 		Array.from(document.querySelectorAll('[data-popup-opener]')).forEach(element => {
 			element.addEventListener('click', e => {
@@ -88,22 +90,27 @@ class Popups {
 			overwrite: true,
 			display: 'flex',
 		});
-		gsap.fromTo(
-			this.activePopup,
-			{ autoAlpha: 0, scale: 0.98, display: 'block' },
-			{
-				duration: 0.35,
-				autoAlpha: 1,
-				scale: 1,
-				onComplete: () => {
-					const focusElement = this.activePopup.querySelector('[data-popup-focus]');
 
-					if (focusElement) {
-						focusElement.focus && focusElement.focus();
-					}
-				},
-			}
-		);
+		if (this.animations[this.popupOpenAnimation]) {
+			this.animations[this.popupOpenAnimation](this.activePopup);
+		} else {
+			gsap.fromTo(
+				this.activePopup,
+				{ autoAlpha: 0, scale: 0.98, display: 'block' },
+				{
+					duration: 0.35,
+					autoAlpha: 1,
+					scale: 1,
+					onComplete: () => {
+						const focusElement = this.activePopup.querySelector('[data-popup-focus]');
+
+						if (focusElement) {
+							focusElement.focus && focusElement.focus();
+						}
+					},
+				}
+			);
+		}
 
 		HTML_CLASSLIST.add('_popup-opened');
 
@@ -121,21 +128,27 @@ class Popups {
 			this.wrapper.classList.remove('_' + this.activePopupName);
 
 			this.onCloseStart.call(this.activePopupName);
+			this.popupCloseAnimation = this.activePopup.getAttribute('data-popup-close-animation');
 
 			this.activePopupName = '';
 
 			this.wrapper.classList.add('no-pe');
 			gsap.to(this.wrapper, 0.35, { duration: 0.35, autoAlpha: 0, display: 'none' });
-			gsap.to(this.activePopup, {
-				duration: immediate ? 0 : 0.35,
-				autoAlpha: 0,
-				scale: 0.98,
-				display: 'none',
-				onComplete: () => {
-					enableBodyScroll(this.activePopup);
-					this.onClose.call();
-				},
-			});
+
+			if (this.animations[this.popupCloseAnimation]) {
+				this.animations[this.popupCloseAnimation](this.activePopup, immediate);
+			} else {
+				gsap.to(this.activePopup, {
+					duration: immediate ? 0 : 0.35,
+					autoAlpha: 0,
+					scale: 0.98,
+					display: 'none',
+					onComplete: () => {
+						enableBodyScroll(this.activePopup);
+						this.onClose.call();
+					},
+				});
+			}
 
 			HTML_CLASSLIST.remove('_popup-opened');
 
