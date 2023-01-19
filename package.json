@@ -2,12 +2,8 @@
   "name": "sp.popups",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/popups.min.js",
-  "files": [
-    "dist"
-  ],
+  "main": "index.js",
   "scripts": {
-    "build": "node scripts/build.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,8 +20,5 @@
     "body-scroll-lock": "4.0.0-beta.0",
     "gsap": "3.11.4"
   },
-  "devDependencies": {
-    "esbuild": "0.17.0",
-    "esbuild-sass-plugin": "2.4.5"
-  }
+  "devDependencies": {}
 }

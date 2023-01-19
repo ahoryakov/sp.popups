@@ -8,7 +8,7 @@
 	display: none;
 	overflow: hidden;
 	overflow-y: auto;
-	background-color: #ccc;
+	background-color: rgba(#ccc, 0.5);
 	&__popup {
 		display: none;
 		position: relative;

@@ -1,6 +1,6 @@
 import { gsap } from 'gsap';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import Signal from './Signal';
+import Signal from './lib/js/Signal';
 
 const HTML_CLASSLIST = document.documentElement.classList;
 
@@ -77,6 +77,7 @@ class Popups {
 		this.opened = true;
 		this.activePopup = popup;
 		this.activePopupName = name;
+		this.popupOpenAnimation = this.activePopup.getAttribute('data-popup-open-animation');
 
 		this.wrapper.classList.add('_' + name);
 
@@ -149,4 +150,4 @@ class Popups {
 	}
 }
 
-export default Popups;
+export default new Popups();
