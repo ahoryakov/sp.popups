@@ -91,8 +91,16 @@ class Popups {
 			display: 'flex',
 		});
 
+		const completeHandler = () => {
+			const focusElement = this.activePopup.querySelector('[data-popup-focus]');
+
+			if (focusElement) {
+				focusElement.focus && focusElement.focus();
+			}
+		}
+
 		if (this.animations[this.popupOpenAnimation]) {
-			this.animations[this.popupOpenAnimation](this.activePopup);
+			this.animations[this.popupOpenAnimation](this.activePopup, completeHandler);
 		} else {
 			gsap.fromTo(
 				this.activePopup,
@@ -102,11 +110,7 @@ class Popups {
 					autoAlpha: 1,
 					scale: 1,
 					onComplete: () => {
-						const focusElement = this.activePopup.querySelector('[data-popup-focus]');
-
-						if (focusElement) {
-							focusElement.focus && focusElement.focus();
-						}
+						completeHandler();
 					},
 				}
 			);
@@ -135,8 +139,13 @@ class Popups {
 			this.wrapper.classList.add('no-pe');
 			gsap.to(this.wrapper, 0.35, { duration: 0.35, autoAlpha: 0, display: 'none' });
 
+			const completeHandler = () => {
+				enableBodyScroll(this.activePopup);
+				this.onClose.call();
+			}
+
 			if (this.animations[this.popupCloseAnimation]) {
-				this.animations[this.popupCloseAnimation](this.activePopup, immediate);
+				this.animations[this.popupCloseAnimation](this.activePopup, immediate, completeHandler);
 			} else {
 				gsap.to(this.activePopup, {
 					duration: immediate ? 0 : 0.35,
@@ -144,8 +153,7 @@ class Popups {
 					scale: 0.98,
 					display: 'none',
 					onComplete: () => {
-						enableBodyScroll(this.activePopup);
-						this.onClose.call();
+						completeHandler()
 					},
 				});
 			}
